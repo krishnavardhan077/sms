@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 
-const API = 'http://localhost:8000/api';
+import { API } from '../utils/api';
 
 function ScoreBadge({ score }) {
   if (score === null || score === undefined) return <span style={{ color: 'var(--on-surface-variant)', fontSize: '0.8rem' }}>—</span>;

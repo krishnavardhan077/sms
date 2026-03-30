@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const API = 'http://localhost:8000/api/auth';
+import { API as BASE_API } from '../utils/api';
+const API = `${BASE_API}/auth`;
 
 const ROLES = [
   { value: 'student', label: 'Student', icon: '🎓' },

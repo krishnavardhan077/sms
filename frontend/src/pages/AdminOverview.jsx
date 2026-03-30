@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 
-const API = 'http://localhost:8000/api';
+import { API } from '../utils/api';
 
 const ROLE_COLORS = {
   student: { bg: 'rgba(99,102,241,0.15)', text: '#a5b4fc', border: 'rgba(99,102,241,0.3)' },

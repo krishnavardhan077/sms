@@ -1,14 +1,18 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
+from dotenv import load_dotenv
+import os
 
-# Database configuration
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:boomer2006@localhost/studentdb"
+# Load environment variables from .env
+load_dotenv()
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost/studentdb")
+
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
 
 # Dependency
 def get_db():

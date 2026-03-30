@@ -1,10 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
 import models
 from database import engine, SessionLocal
 from routes import router as api_router
 from auth import router as auth_router
 from admin_routes import router as admin_router
+
+# Load environment variables from .env
+load_dotenv()
+
+CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
 
 # Create / migrate tables (safe — won't drop existing)
 models.Base.metadata.create_all(bind=engine)

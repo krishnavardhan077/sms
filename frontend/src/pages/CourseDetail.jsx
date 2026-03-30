@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API } from '../utils/api';
 import { useParams, Link } from 'react-router-dom';
 
 export default function CourseDetail() {
@@ -6,7 +7,7 @@ export default function CourseDetail() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/courses/${id}`)
+    fetch(`${API}/courses/${id}`)
       .then(res => res.json())
       .then(d => setData(d))
       .catch(err => console.error(err));

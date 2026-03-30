@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
-const API = 'http://localhost:8000/api';
+import { API } from '../utils/api';
 
 function ScoreBadge({ score }) {
   if (score === null || score === undefined)
