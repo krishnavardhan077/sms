@@ -8,10 +8,10 @@ from routes import router as api_router
 from auth import router as auth_router
 from admin_routes import router as admin_router
 
-# Load environment variables from .env
+# Load environment variables from .env (local dev only; Render injects them directly)
 load_dotenv()
 
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*").split(",")
 
 # Create / migrate tables (safe — won't drop existing)
 models.Base.metadata.create_all(bind=engine)
@@ -28,7 +28,7 @@ app = FastAPI(title="Student Management System API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
