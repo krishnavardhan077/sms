@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
+import { Sun, Moon } from 'lucide-react';
 
 import { API as BASE_API } from '../utils/api';
 const API = `${BASE_API}/auth`;
 
 const ROLES = [
-  { value: 'student', label: 'Student', icon: '🎓' },
-  { value: 'teacher', label: 'Teacher', icon: '👨‍🏫' },
-  { value: 'admin',   label: 'Admin',   icon: '🛡️' },
+  { value: 'student', label: 'Student' },
+  { value: 'teacher', label: 'Teacher' },
+  { value: 'admin',   label: 'Admin'   },
 ];
 
 export default function AuthPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { isDark, toggleTheme } = useTheme();
 
   const [tab, setTab] = useState('login');       // 'login' | 'register'
   const [role, setRole] = useState('student');
@@ -80,9 +83,35 @@ export default function AuthPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'var(--background)',
+      background: 'var(--surface)',
       padding: '2rem',
+      transition: 'background 0.3s ease',
     }}>
+      {/* Floating theme toggle */}
+      <button
+        onClick={toggleTheme}
+        aria-label="Toggle dark/light mode"
+        style={{
+          position: 'fixed', top: '1.25rem', right: '1.25rem',
+          display: 'flex', alignItems: 'center', gap: '0.5rem',
+          padding: '0.5rem 1rem',
+          borderRadius: '9999px',
+          border: '1px solid var(--outline-variant)',
+          background: 'var(--surface-container-lowest)',
+          color: 'var(--on-surface)',
+          cursor: 'pointer',
+          fontSize: '0.82rem', fontWeight: 600,
+          fontFamily: 'var(--font-body)',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+          transition: 'background 0.2s, transform 0.15s',
+          zIndex: 100,
+        }}
+        onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
+        onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+      >
+        {isDark ? <Moon size={14} /> : <Sun size={14} />}
+        {isDark ? 'Dark' : 'Light'}
+      </button>
       {/* Decorative blobs */}
       <div style={{
         position: 'fixed', top: '-120px', left: '-120px',
@@ -115,9 +144,9 @@ export default function AuthPage() {
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: '56px', height: '56px', borderRadius: '16px',
             background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-            fontSize: '1.8rem', marginBottom: '1rem',
-            boxShadow: '0 8px 24px rgba(99,102,241,0.35)',
-          }}>🏫</div>
+            fontSize: '1.1rem', fontWeight: 800, color: '#fff', marginBottom: '1rem',
+            boxShadow: '0 8px 24px rgba(99,102,241,0.35)', letterSpacing: '-0.03em',
+          }}>AA</div>
           <h1 style={{
             fontSize: '1.6rem', fontWeight: 700, margin: 0, lineHeight: 1.2,
             background: 'linear-gradient(135deg, #c7d2fe, #a5b4fc)',
@@ -152,7 +181,7 @@ export default function AuthPage() {
           {tab === 'login' ? 'Sign in as' : 'Register as'}
         </p>
         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.6rem' }}>
-          {ROLES.map(({ value, label, icon }) => (
+          {ROLES.map(({ value, label }) => (
             <button key={value} onClick={() => handleRoleChange(value)}
               style={{
                 flex: 1, padding: '0.55rem 0.3rem', border: 'none', cursor: 'pointer',
@@ -165,7 +194,7 @@ export default function AuthPage() {
                 border: role === value ? '1px solid rgba(99,102,241,0.5)' : '1px solid rgba(255,255,255,0.07)',
                 boxShadow: role === value ? '0 0 0 1px rgba(99,102,241,0.25)' : 'none',
               }}
-            >{icon} {label}</button>
+            >{label}</button>
           ))}
         </div>
 
@@ -208,15 +237,15 @@ export default function AuthPage() {
             <div style={{
               padding: '0.75rem 1rem', borderRadius: '10px',
               background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)',
-              color: '#fca5a5', fontSize: '0.85rem', display: 'flex', gap: '0.5rem', alignItems: 'flex-start',
-            }}>⚠️ {error}</div>
+              color: '#fca5a5', fontSize: '0.85rem',
+            }}>{error}</div>
           )}
           {success && (
             <div style={{
               padding: '0.75rem 1rem', borderRadius: '10px',
               background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)',
-              color: '#86efac', fontSize: '0.85rem', display: 'flex', gap: '0.5rem', alignItems: 'flex-start',
-            }}>✅ {success}</div>
+              color: '#86efac', fontSize: '0.85rem',
+            }}>{success}</div>
           )}
 
           <button id="auth-submit" type="submit" disabled={loading}

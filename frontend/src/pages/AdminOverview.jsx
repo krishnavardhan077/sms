@@ -126,18 +126,18 @@ export default function AdminOverview() {
   };
 
   const STAT_CARDS = stats ? [
-    { label: 'Total Students', value: stats.students, icon: '🎓', color: '#6366f1' },
-    { label: 'Total Teachers', value: stats.teachers, icon: '👨‍🏫', color: '#8b5cf6' },
-    { label: 'Courses', value: stats.courses, icon: '📚', color: '#06b6d4' },
-    { label: 'Enrollments', value: stats.enrollments, icon: '📋', color: '#10b981' },
-    { label: 'Test Attempts', value: stats.test_attempts, icon: '✏️', color: '#f59e0b' },
+    { label: 'Total Students', value: stats.students, color: '#6366f1' },
+    { label: 'Total Teachers', value: stats.teachers, color: '#8b5cf6' },
+    { label: 'Courses', value: stats.courses, color: '#06b6d4' },
+    { label: 'Enrollments', value: stats.enrollments, color: '#10b981' },
+    { label: 'Test Attempts', value: stats.test_attempts, color: '#f59e0b' },
   ] : [];
 
   const UserTable = ({ users, role, onAdd }) => (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <h2 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 700, color: 'var(--on-surface)' }}>
-          {role === 'student' ? '🎓' : '👨‍🏫'} {role === 'student' ? 'Students' : 'Teachers'} ({users.length})
+          {role === 'student' ? 'Students' : 'Teachers'} ({users.length})
         </h2>
         <button onClick={onAdd} style={{ ...btnPrimary, fontSize: '0.85rem', padding: '0.55rem 1rem' }}>+ Add {role === 'student' ? 'Student' : 'Teacher'}</button>
       </div>
@@ -188,17 +188,16 @@ export default function AdminOverview() {
         border: '1px solid rgba(99,102,241,0.2)', borderRadius: '16px',
         padding: '1.5rem 2rem', marginBottom: '2rem',
       }}>
-        <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 800, color: 'var(--on-surface)' }}>Admin Control Panel 🛡️</h1>
+        <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 800, color: 'var(--on-surface)' }}>Admin Control Panel</h1>
         <p style={{ margin: '0.3rem 0 0', color: 'var(--on-surface-variant)' }}>Manage all students, teachers, and system data</p>
       </div>
 
       {/* Stats */}
       {stats && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-          {STAT_CARDS.map(({ label, value, icon, color }) => (
+          {STAT_CARDS.map(({ label, value, color }) => (
             <div key={label} style={{ padding: '1rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', textAlign: 'center' }}>
-              <p style={{ margin: 0, fontSize: '1.8rem' }}>{icon}</p>
-              <p style={{ margin: '0.5rem 0 0.2rem', fontSize: '1.8rem', fontWeight: 800, color }}>{value}</p>
+              <p style={{ margin: '0 0 0.2rem', fontSize: '1.8rem', fontWeight: 800, color }}>{value}</p>
               <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--on-surface-variant)' }}>{label}</p>
             </div>
           ))}
@@ -207,7 +206,7 @@ export default function AdminOverview() {
 
       {/* Tab Toggle */}
       <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
-        {[['overview', '📊 Overview'], ['students', '🎓 Students'], ['teachers', '👨‍🏫 Teachers']].map(([key, label]) => (
+        {[['overview', 'Overview'], ['students', 'Students'], ['teachers', 'Teachers']].map(([key, label]) => (
           <button key={key} onClick={() => setTab(key)} style={{
             padding: '0.55rem 1.15rem', borderRadius: '10px', border: 'none', cursor: 'pointer',
             fontWeight: 600, fontSize: '0.88rem',
@@ -264,7 +263,7 @@ export default function AdminOverview() {
                 <option value="admin">Admin</option>
               </select>
             </div>
-            {formError && <p style={{ color: '#fca5a5', fontSize: '0.85rem', margin: 0 }}>⚠️ {formError}</p>}
+            {formError && <p style={{ color: '#fca5a5', fontSize: '0.85rem', margin: 0 }}>{formError}</p>}
             <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
               <button onClick={() => setModal(null)} style={{ flex: 1, padding: '0.7rem', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)', color: 'var(--on-surface-variant)', cursor: 'pointer', fontWeight: 600 }}>Cancel</button>
               <button onClick={handleSave} disabled={saving} style={{ ...btnPrimary, flex: 1, opacity: saving ? 0.6 : 1 }}>{saving ? 'Saving…' : 'Save'}</button>

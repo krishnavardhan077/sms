@@ -53,7 +53,7 @@ export default function TeacherDashboard() {
       }}>
         <div>
           <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 800, color: 'var(--on-surface)' }}>
-            Instructor Center 👨‍🏫
+            Instructor Center
           </h1>
           <p style={{ margin: '0.3rem 0 0', color: 'var(--on-surface-variant)' }}>Welcome, {user.name}</p>
         </div>
@@ -107,7 +107,6 @@ export default function TeacherDashboard() {
 
               {roster.students.length === 0 ? (
                 <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--on-surface-variant)' }}>
-                  <p style={{ fontSize: '2rem' }}>🎓</p>
                   <p>No students enrolled in this course yet.</p>
                 </div>
               ) : (

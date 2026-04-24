@@ -63,7 +63,7 @@ function TestModal({ test, studentId, onClose, onSubmitted }) {
           <p style={{ color: 'var(--on-surface-variant)' }}>Loading questions...</p>
         ) : result ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>{result.percentage >= 80 ? '🎉' : result.percentage >= 60 ? '👍' : '📚'}</div>
+            <p style={{ fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--on-surface-variant)', marginBottom: '0.5rem' }}>Result</p>
             <p style={{ fontSize: '2.5rem', fontWeight: 800, color: result.percentage >= 80 ? '#4ade80' : result.percentage >= 60 ? '#fbbf24' : '#f87171', margin: 0 }}>{result.percentage}%</p>
             <p style={{ color: 'var(--on-surface-variant)', marginTop: '0.5rem' }}>You scored {result.score} out of {result.total}</p>
             <button onClick={onClose} style={{ marginTop: '1.5rem', padding: '0.75rem 2rem', borderRadius: '10px', border: 'none', cursor: 'pointer', background: 'var(--primary)', color: '#fff', fontWeight: 600 }}>Close</button>
@@ -172,7 +172,7 @@ export default function StudentDashboard() {
       }}>
         <div>
           <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 800, color: 'var(--on-surface)' }}>
-            Welcome back, {user.name}! 👋
+            Welcome back, {user.name}
           </h1>
           <p style={{ margin: '0.3rem 0 0', color: 'var(--on-surface-variant)' }}>Student Dashboard</p>
         </div>
@@ -206,8 +206,7 @@ export default function StudentDashboard() {
       {tab === 'enrolled' && (
         enrolled.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--on-surface-variant)' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📚</div>
-            <p style={{ fontSize: '1.1rem' }}>You're not enrolled in any courses yet.</p>
+            <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>You are not enrolled in any courses yet.</p>
             <button onClick={() => setTab('browse')} style={{ marginTop: '1rem', padding: '0.7rem 1.5rem', borderRadius: '10px', border: 'none', cursor: 'pointer', background: '#6366f1', color: '#fff', fontWeight: 600 }}>Browse Courses</button>
           </div>
         ) : (
@@ -279,7 +278,7 @@ export default function StudentDashboard() {
                 <p style={{ margin: '0.5rem 0 0', color: 'var(--on-surface-variant)', fontSize: '0.85rem', lineHeight: 1.5 }}>{course.description}</p>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ color: 'var(--on-surface-variant)', fontSize: '0.82rem' }}>📝 {course.test_count} tests</span>
+                <span style={{ color: 'var(--on-surface-variant)', fontSize: '0.82rem' }}>{course.test_count} {course.test_count === 1 ? 'test' : 'tests'}</span>
                 {!course.enrolled && (
                   <button onClick={() => enroll(course.id)} disabled={enrolling === course.id} style={{ padding: '0.5rem 1.25rem', borderRadius: '10px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: '#fff', fontWeight: 700, fontSize: '0.85rem', boxShadow: '0 4px 12px rgba(99,102,241,0.3)' }}>
                     {enrolling === course.id ? 'Enrolling…' : 'Enroll'}

@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
-import { Home, Users, BookOpen, LogOut } from 'lucide-react';
+import { Home, Users, BookOpen, LogOut, Sun, Moon } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import StudentDashboard from './pages/StudentDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
 import AdminOverview from './pages/AdminOverview';
@@ -17,6 +18,7 @@ function ProtectedRoute({ children }) {
 
 function AppShell() {
   const { user, logout } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -40,6 +42,7 @@ function AppShell() {
 
   return (
     <div className="dashboard-layout">
+      {/* ── Sidebar ─────────────────────────────────────────── */}
       <aside className="sidebar">
         <h2 className="display" style={{ marginBottom: '0.5rem', color: 'var(--primary)', fontSize: '1.1rem' }}>
           Academic Architect
@@ -87,30 +90,58 @@ function AppShell() {
         )}
       </aside>
 
-      <main className="main-content">
-        <Routes>
-          <Route path="/admin" element={<ProtectedRoute><AdminOverview /></ProtectedRoute>} />
-          <Route path="/teacher/:id" element={<ProtectedRoute><TeacherDashboard /></ProtectedRoute>} />
-          <Route path="/student/:id" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
-          <Route path="/course/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
-          <Route path="/" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </main>
+      {/* ── Right column: Navbar + Page content ─────────────── */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+
+        {/* Top Navbar */}
+        <header className="top-navbar">
+          <span className="top-navbar__title">Dashboard</span>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {/* Theme toggle pill */}
+            <button
+              className={`navbar-theme-toggle${isDark ? ' dark-active' : ''}`}
+              onClick={toggleTheme}
+              aria-label="Toggle dark/light mode"
+            >
+              <span className="ntt-icon">
+                {isDark ? <Moon size={14} /> : <Sun size={14} />}
+              </span>
+              <span className="ntt-label">{isDark ? 'Dark' : 'Light'}</span>
+              <span className="ntt-track">
+                <span className="ntt-thumb" />
+              </span>
+            </button>
+          </div>
+        </header>
+
+        <main className="main-content">
+          <Routes>
+            <Route path="/admin" element={<ProtectedRoute><AdminOverview /></ProtectedRoute>} />
+            <Route path="/teacher/:id" element={<ProtectedRoute><TeacherDashboard /></ProtectedRoute>} />
+            <Route path="/student/:id" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
+            <Route path="/course/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
+            <Route path="/" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </main>
+      </div>
     </div>
   );
 }
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<AuthPage />} />
-          {/* All other routes use AppShell which has the sidebar */}
-          <Route path="/*" element={<AppShell />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<AuthPage />} />
+            {/* All other routes use AppShell which has the sidebar */}
+            <Route path="/*" element={<AppShell />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
